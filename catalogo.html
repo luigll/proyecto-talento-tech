@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>LocalStep - Catálogo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Íconos -->
+  <link rel="apple-touch-icon" href="img/apple-icon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/templatemo.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- JS de la base de datos -->
+  <script src="basedatos/datos.js"></script>
+  <script src="basedatos/consultas.js"></script>
+</head>
+<body>
+  <!-- Menú dinámico -->
+  <div id="menu"></div>
+
+  <!-- Contenido de la página - Inicio -->
+  <div class="container py-5">
+    <div class="row">
+      <!-- Categorías -->
+      <div class="col-lg-3">
+        <h1 class="h2 pb-4">Categorías</h1>
+        <ul id="etiqueta_categorias" class="list-unstyled"></ul>
+      </div>
+
+      <script>
+        let etiqueta_categorias = document.getElementById("etiqueta_categorias");
+        lista_categorias.forEach((categoria) => {
+          let li = document.createElement("li");
+          li.classList.add("pb-3");
+          li.innerHTML = `
+            <a class="d-flex justify-content-between text-decoration-none" href="catalogo.html?cat=${categoria.id}">
+              ${categoria.nombre}
+            </a>
+          `;
+          etiqueta_categorias.appendChild(li);
+        });
+      </script>
+
+      <!-- Productos -->
+      <div class="col-lg-6">
+        <div id="etiqueta_productos" class="row"></div>
+      </div>
+
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoria = urlParams.get('cat');
+
+        let etiqueta_productos = document.getElementById("etiqueta_productos");
+        let productos_filtrados = obtenerProductosPorCategoria(categoria);
+
+        productos_filtrados.forEach((producto) => {
+          let div_col = document.createElement("div");
+          div_col.classList.add("col-md-4");
+          div_col.innerHTML = `
+            <div class="card mb-4 product-wap rounded-0">
+              <div class="card rounded-0">
+                <img class="card-img rounded-0 img-fluid" src="${producto.imagen}" alt="${producto.nombre}">
+                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                  <ul class="list-unstyled">
+                    <li><a class="btn btn-success text-white" href="detalle_catalogo.html?id=${producto.id}"><i class="fa-regular fa-heart"></i></a></li>
+                    <li><a class="btn btn-success text-white mt-2" href="detalle_catalogo.html?id=${producto.id}"><i class="fa-regular fa-eye"></i></a></li>
+                    <li><a class="btn btn-success text-white mt-2" href="#" onclick="agregarAlCarrito('${producto.id}')"><i class="fa-solid fa-cart-plus"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <a href="detalle_catalogo.html?id=${producto.id}" class="h3 text-decoration-none">${producto.nombre}</a>
+                
+                <!-- ⭐ Estrellas de calificación -->
+                <ul class="list-unstyled d-flex justify-content-center mb-1">
+                  <li><i class="text-warning fa fa-star"></i></li>
+                  <li><i class="text-warning fa fa-star"></i></li>
+                  <li><i class="text-warning fa fa-star"></i></li>
+                  <li><i class="text-muted fa fa-star"></i></li>
+                  <li><i class="text-muted fa fa-star"></i></li>
+                </ul>
+
+                <p class="text-center mb-0">$${producto.precio.toLocaleString("es-CO")}</p>
+              </div>
+            </div>
+          `;
+          etiqueta_productos.appendChild(div_col);
+        });
+      </script>
+
+      <!-- Carrito de Compras -->
+      <div class="col-lg-3 bg-light p-3">
+        <h3 class="text-dark">Carrito de Compras</h3>
+        <p>Valor Total: $<b id="etiqueta_total">0</b></p>
+        <ul id="etiqueta_carrito" class="list-unstyled"></ul>
+        
+      
+        <button class="btn btn-danger w-100 mb-2" onclick="vaciarCarrito()">Vaciar Carrito</button>
+        <button class="btn btn-success w-100" onclick="guardarTotalYPagar()">Pagar</button>
+
+
+      </div>
+    </div>
+
+    <script>
+      mostrarCarrito();
+    </script>
+
+    <!-- Paginación -->
+    <div class="row mt-4">
+      <ul class="pagination pagination-lg justify-content-end">
+        <li class="page-item active">
+          <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script>
+  function guardarTotalYPagar() {
+    let total = document.getElementById("etiqueta_total").textContent;
+    localStorage.setItem("totalPagar", total);
+    window.location.href = 'pago.html';
+  }
+</script>
+</body>
+</html>
+
+
+  <!-- Contenido de la página - Final -->
+
+  <!-- Pie dinámico -->
+  <div id="pie"></div>
+
+  <!-- Scripts -->
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="js/jquery-migrate-1.2.1.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/templatemo.js"></script>
+  <script src="js/custom.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      cargarFragmento("menu", "menu.html");
+      cargarFragmento("pie", "pie.html");
+    });
+  </script>
+</body>
+</html>

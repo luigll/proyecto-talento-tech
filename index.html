@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>LocalStep</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/templatemo.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+  </head>
+
+  <body>
+    <!-- Contenedor para cargar la barra de menú usando JavaScript -->
+    <div id="menu"></div>
+    <!-- Contenido de la página - Inicio  -->
+    <!-- Inicio del carrusel -->
+    <div
+      id="template-mo-zay-hero-carousel"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <ol class="carousel-indicators"></ol>
+      <div class="carousel-inner"></div>
+      <a
+        class="carousel-control-prev text-decoration-none w-auto ps-3"
+        href="#template-mo-zay-hero-carousel"
+        role="button"
+        data-bs-slide="prev"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </a>
+      <a
+        class="carousel-control-next text-decoration-none w-auto pe-3"
+        href="#template-mo-zay-hero-carousel"
+        role="button"
+        data-bs-slide="next"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </a>
+    </div>
+    <script>
+      const elementos_carrusel = [
+        {
+          nombre: "Fabricación artesanal",
+          descripcion:
+            "Zapatos hechos a mano por pequeños fabricantes locales.",
+          imagen: "imagenes/fabricacion.jpg",
+        },
+        {
+          nombre: "Trabajo detallado",
+          descripcion:
+            "Cada par refleja dedicación y precisión en su elaboración.",
+          imagen: "imagenes/fabricacion2.jpg",
+        },
+        {
+          nombre: "Materiales de calidad",
+          descripcion:
+            "Selección de insumos para garantizar comodidad y durabilidad.",
+          imagen: "imagenes/fabricacion3.jpg",
+        },
+        {
+          nombre: "Diseños únicos",
+          descripcion: "Calzado auténtico con identidad y estilo propio.",
+          imagen: "imagenes/fabricacion4.jpg",
+        },
+      ];
+
+      const carrusel_indicators = document.querySelector(
+        ".carousel-indicators"
+      );
+      elementos_carrusel.forEach((_, indice) => {
+        const li = document.createElement("li");
+        li.setAttribute("data-bs-target", "#template-mo-zay-hero-carousel");
+        li.setAttribute("data-bs-slide-to", indice);
+        if (indice === 0) {
+          li.classList.add("active");
+        }
+        carrusel_indicators.appendChild(li);
+      });
+
+      const carrusel_inner = document.querySelector(".carousel-inner");
+      elementos_carrusel.forEach((elemento, indice) => {
+        const divItem = document.createElement("div");
+        divItem.classList.add("carousel-item");
+        if (indice === 0) {
+          divItem.classList.add("active");
+        }
+
+        divItem.innerHTML = `
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="${elemento.imagen}" alt="${elemento.nombre}">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align left align-self-center">
+                            <h1 class="h1 text-success"><b>${elemento.nombre}</b></h1>
+                            <p>${elemento.descripcion}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        carrusel_inner.appendChild(divItem);
+      });
+    </script>
+    <!-- Fin del carrusel -->
+
+    <!--seccion carrusel categorias-->
+    <section class="container py-5">
+      <div class="row text-center pt-3">
+        <div class="col-lg-6 m-auto">
+          <h1 class="h1">Categorías</h1>
+          <p>
+            Explora las diferentes categorías de calzado que tenemos para ti.
+          </p>
+        </div>
+      </div>
+      <div id="etiqueta_categorias" class="row"></div>
+    </section>
+    <script>
+      const contenedor_categorias = document.getElementById(
+        "etiqueta_categorias"
+      );
+
+      const lista_categorias = [
+        {
+          nombre: "Zapatillas deportivas",
+          descripcion: "Modelos cómodos y modernos para uso diario",
+          imagen: "imagenes/imagen1.jpg",
+        },
+        {
+          nombre: "Sneakers urbanos",
+          descripcion: "Estilo casual y juvenil para la ciudad",
+          imagen: "imagenes/imagen2.jpg",
+        },
+        {
+          nombre: "Zapatos clásicos",
+          descripcion: "Perfectos para un look elegante y formal",
+          imagen: "imagenes/imagen3.jpg",
+        },
+        {
+          nombre: "Deportivos de alto rendimiento",
+          descripcion: "Diseñados para actividades físicas intensas",
+          imagen: "imagenes/imagen4.jpg",
+        },
+      ];
+
+      lista_categorias.forEach((categoria) => {
+        const div = document.createElement("div");
+        div.classList.add("col-12", "col-md-4", "p-5", "mt-3");
+
+        div.innerHTML = `
+            <a href="#">
+                <img src="${categoria.imagen}" class="rounded-circle img-fluid border" alt="${categoria.nombre}">
+                <h5 class="text-center mt-3 mb-3">${categoria.nombre}</h5>
+                <p class="text-center"><a class="btn btn-success" href="#" role="button">Ver más</a></p>
+            </a>
+        `;
+
+        contenedor_categorias.appendChild(div);
+      });
+    </script>
+
+    <!-- Contenido de la página - Final  -->
+    <div id="pie"></div>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        cargarFragmento("menu", "menu.html");
+        cargarFragmento("pie", "pie.html");
+      });
+    </script>
+  </body>
+</html>

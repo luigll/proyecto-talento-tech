@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>LocalStep - Catálogo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Íconos -->
+  <link rel="apple-touch-icon" href="img/apple-icon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/templatemo.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+
+  <!-- JS de la base de datos -->
+  <script src="basedatos/datos.js"></script>
+  <script src="basedatos/consultas.js"></script>
+</head>
+<body>
+  <!-- Menú dinámico -->
+  <div id="menu"></div>
+
+  <!-- Contenido de la página - Inicio -->
+  <div class="container py-5">
+    <div class="row">
+      <!-- Categorías -->
+      <div class="col-lg-3">
+        <h1 class="h2 pb-4">Categorías</h1>
+        <ul id="etiqueta_categorias" class="list-unstyled">
+          <!-- Se cargan con JS -->
+        </ul>
+      </div>
+
+      <script>
+        let etiqueta_categorias = document.getElementById("etiqueta_categorias");
+        lista_categorias.forEach((categoria) => {
+          let li = document.createElement("li");
+          li.classList.add("pb-3");
+          li.innerHTML = `
+            <a class="d-flex justify-content-between text-decoration-none" href="catalogo.html?cat=${categoria.codigo}">
+              ${categoria.nombre}
+            </a>
+          `;
+          etiqueta_categorias.appendChild(li);
+        });
+      </script>
+
+      <!-- Productos -->
+      <div class="col-lg-9">
+        <div id="etiqueta_productos" class="row">
+          <!-- Se cargan con JS -->
+        </div>
+      </div>
+
+      <script>
+        // Obtener categoría desde la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoria = urlParams.get('cat');
+
+        let etiqueta_productos = document.getElementById("etiqueta_productos");
+        let productos_filtrados = obtenerProductosServicios(categoria);
+
+        productos_filtrados.forEach((producto) => {
+          let div_col = document.createElement("div");
+          div_col.classList.add("col-md-4");
+          div_col.innerHTML = `
+            <div class="card mb-4 product-wap rounded-0">
+              <div class="card rounded-0">
+                <img class="card-img rounded-0 img-fluid" src="${producto.imagen}" alt="${producto.nombre}">
+                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                  <ul class="list-unstyled">
+                    <li><a class="btn btn-success text-white" href="detalle.html?id=${producto.id}"><i class="far fa-heart"></i></a></li>
+                    <li><a class="btn btn-success text-white mt-2" href="detalle.html?id=${producto.id}"><i class="far fa-eye"></i></a></li>
+                    <li><a class="btn btn-success text-white mt-2" href="carrito.html?add=${producto.id}"><i class="fas fa-cart-plus"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <a href="detalle.html?id=${producto.id}" class="h3 text-decoration-none">${producto.nombre}</a>
+                <p class="text-center mb-0">$${producto.precio.toLocaleString("es-CO")}</p>
+              </div>
+            </div>
+          `;
+          etiqueta_productos.appendChild(div_col);
+        });
+      </script>
+    </div>
+
+    <!-- Paginación -->
+    <div class="row">
+      <ul class="pagination pagination-lg justify-content-end">
+        <li class="page-item disabled">
+          <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Contenido de la página - Final -->
+
+  <!-- Pie dinámico -->
+  <div id="pie"></div>
+
+  <!-- Scripts -->
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="js/jquery-migrate-1.2.1.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/templatemo.js"></script>
+  <script src="js/custom.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      cargarFragmento("menu", "menu.html");
+      cargarFragmento("pie", "pie.html");
+    });
+  </script>
+</body>
+</html>
