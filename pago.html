@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>LocalStep</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/templatemo.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <!-- Cargar fuentes después de los estilos -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
+  </head>
+
+  <body>
+    <!-- Contenedor para cargar la barra de menú usando JavaScript -->
+    <div id="menu"></div>
+    <!-- Contenido de la página - Inicio  -->
+    <!-- Contenido de la página - Pago -->
+    <div class="container mt-5">
+      <h2 class="mb-4">Finalizar Compra</h2>
+
+      <div class="card p-4 shadow-sm">
+        <form id="formPago">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre en la tarjeta</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              placeholder="Como aparece en la tarjeta"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="numero" class="form-label">Número de tarjeta</label>
+            <input
+              type="text"
+              class="form-control"
+              id="numero"
+              placeholder="1234 5678 9012 3456"
+              required
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="fecha" class="form-label">Fecha de vencimiento</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fecha"
+                placeholder="MM/AA"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="cvv" class="form-label">CVV</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cvv"
+                placeholder="123"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección de envío</label>
+            <input
+              type="text"
+              class="form-control"
+              id="direccion"
+              placeholder="Tu dirección completa"
+              required
+            />
+          </div>
+
+          <!-- Total a pagar -->
+          <div class="mb-3">
+            <label class="form-label"><strong>Total a pagar:</strong></label>
+            <p id="totalPagar" class="form-control-plaintext text-success"></p>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">
+            Pagar ahora
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Fin contenido de la página -->
+
+    <!-- Contenido de la página - Final  -->
+    <!-- Contenedor para cargar el pie de página usando JavaScript -->
+    <div id="pie"></div>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/pago.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        cargarFragmento("menu", "menu.html");
+        cargarFragmento("pie", "pie.html");
+
+        // Mostrar el total guardado en localStorage
+        let total = localStorage.getItem("totalPagar") || 0;
+        document.getElementById("totalPagar").textContent =
+          "$" + parseInt(total).toLocaleString("es-CO");
+      });
+    </script>
+  </body>
+</html>

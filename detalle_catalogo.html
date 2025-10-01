@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Producto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para los íconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-dark text-white p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h3 m-0">ZapatoLocal</h1>
+            <a href="catalogo.html" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left"></i> Volver al catálogo
+            </a>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <section id="etiqueta_detalle_producto" class="bg-light p-3 rounded shadow-sm">
+            <!-- Aquí se cargará el detalle del producto -->
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white p-3 text-center">
+        <p>© 2025 ZapatoLocal - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="basedatos/datos.js"></script>
+    <script src="basedatos/consultas.js"></script>
+
+    <script>
+        // Obtener parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        const codigo_producto = params.get("id");
+
+        // Buscar producto por ID
+        const producto = obtenerProductoPorId(codigo_producto);
+
+        const etiqueta_detalle_producto = document.getElementById("etiqueta_detalle_producto");
+
+        if (producto) {
+            etiqueta_detalle_producto.innerHTML = `
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+                            <img src="${producto.imagen}" class="img-fluid rounded-start" alt="${producto.nombre}">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h3 class="card-title">${producto.nombre}</h3>
+                                <p class="card-text">${producto.descripcion}</p>
+                                <p class="card-text">
+                                    <strong>Precio:</strong> 
+                                    $${producto.precio.toLocaleString("es-CO")}
+                                </p>
+                                <p class="card-text"><strong>Color:</strong> ${producto.color}</p>
+                                <p class="card-text"><strong>Tallas disponibles:</strong> ${producto.talla.join(", ")}</p>
+                                <p class="card-text"><strong>Stock:</strong> ${producto.stock} unidades</p>
+                                
+                                <!-- Estrellas de valoración -->
+                                <p class="mb-2">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                    <i class="far fa-star text-warning"></i>
+                                    <span class="text-muted">(23 reseñas)</span>
+                                </p>
+
+                                <!-- Botones -->
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary" onclick="agregarAlCarrito('${producto.id}')">
+                                        <i class="fas fa-cart-plus"></i> Agregar al carrito
+                                    </button>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="fas fa-eye"></i> Ver más
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            etiqueta_detalle_producto.innerHTML = `<p class="text-danger">Producto no encontrado.</p>`;
+        }
+
+        // Función para simular agregar al carrito
+        function agregarAlCarrito(idProducto) {
+            alert("✅ Producto " + idProducto + " agregado al carrito.");
+        }
+    </script>
+</body>
+</html>
